@@ -16,13 +16,11 @@ function Home() {
   function testEmail() {
     if (emailToTest) {
       try {
-        if (result === null) {
+        if (result === null || !isLoading) {
           setIsLoading(true);
           api.post("/testEmail", emailToTest).then((resp) => {
             setResult(resp.data);
             setIsLoading(false);
-            setEmailToTest("");
-            console.log(emailToTest);
             // window.open("http://localhost:3000", "_self");
           });
         }
