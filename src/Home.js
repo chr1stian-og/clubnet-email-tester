@@ -3,12 +3,14 @@ import axios from "axios";
 import { useState } from "react";
 import ReactFormInputValidation from "react-form-input-validation";
 
-const api = axios.create({ baseURL: "http://localhost:3001/" });
+const api = axios.create({ baseURL: "http://localhost:3001" });
 const loading = require("./loading.gif");
+const controller = new AbortController();
+const signal = controller.signal;
 
 function Home() {
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState(false);
+  const [result, setResult] = useState(null);
   const [emailToTest, setEmailToTest] = useState("");
 
   useEffect(() => {}, []);
@@ -16,11 +18,12 @@ function Home() {
   function testEmail() {
     if (emailToTest) {
       try {
-        if (!result) {
+        if (result === null) {
           setIsLoading(true);
           api.post("/testEmail", emailToTest).then((resp) => {
             setResult(resp.data);
             setIsLoading(false);
+            window.open("http://localhost:3000", "_self");
           });
         }
       } catch (err) {
@@ -88,18 +91,25 @@ function Home() {
       </div>
       <div
         className={`flex-row
-        ${result ? "flex" : "hidden"}
+        ${result != null && !isLoading ? "flex" : "hidden"}
         gap-2 justify-center items-center align-center`}
       >
         <h1 className="items-center text-xl justify-center align-center">
           Test Result:
         </h1>
-        <h1
+        {/* <h1
           className={`items-center ${
             result ? "text-[#158719]" : "text-[#ec1554]"
           } text-xl justify-center align-center`}
         >
           {result ? "the Email is valid" : "the Email is invalid"}
+        </h1> */}
+        <h1
+          className={`items-center ${
+            result ? "text-[#158719]" : "text-[#ec1554]"
+          } text-xl justify-center align-center`}
+        >
+          {result}
         </h1>
       </div>
     </div>
