@@ -19,6 +19,7 @@ app.post("/testEmail", (req, res) => {
     .replace('"""', "")
     .replace(" ", "");
   console.log("testing", emailString, "...");
+  
   verifier.verify(emailString, function (err, info) {
     if (err) {
       console.log(err);

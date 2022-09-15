@@ -3,8 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import ReactFormInputValidation from "react-form-input-validation";
 
-const api = axios.create({ baseURL: "http://localhost:3001" });
-// const api = axios.create({ baseURL: "http://www.easyorder.co.mz:6969" });
+const api = axios.create({ baseURL: "http://www.easyorder.co.mz:6969" });
 const loading = require("./loading.gif");
 
 function Home() {
@@ -12,7 +11,12 @@ function Home() {
   const [result, setResult] = useState(null);
   const [emailToTest, setEmailToTest] = useState("");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (document.getElementById("input-email").value.length == 0) {
+      setIsLoading(false);
+      setEmailToTest("");
+    }
+  }, []);
 
   function testEmail() {
     if (emailToTest) {
@@ -36,24 +40,6 @@ function Home() {
     }
   }
 
-  // function testEmail() {
-  //   alert(`Test ${emailToTest} ?`);
-  //   checkSingle(
-  //     { to_email: emailToTest },
-  //     {
-  //       apiToken: "970a0ea6da1e4beaa689fdbda04ac019", // Optional, rate-limited if not provided.
-  //     }
-  //   ).then((resp) => {
-  //     alert(resp.data);
-  //     console.log(resp.data);
-  //   });
-  // }
-
-  function changeColor() {
-    var e = document.querySelector("#input-email");
-    e.classList.add("bg-[#ec1554]");
-  }
-
   return (
     <div className="h-screen overflow-y-hidden">
       <center className="mt-10">
@@ -63,6 +49,7 @@ function Home() {
       </center>
       <div className="flex flex-col sm:flex-row items-center justify-center align-center gap-4 mt-20 backgroundColor-[#b05b5b] p-20 rounded-sm">
         <input
+          id="input-email"
           type="email"
           maxLength={50}
           onChange={(e) => {
