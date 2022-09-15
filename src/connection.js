@@ -18,34 +18,44 @@ app.post("/testEmail", (req, res) => {
     .replace('"', "")
     .replace('"""', "")
     .replace(" ", "");
-  console.log("testing ", emailString, "...");
+  console.log("testing", emailString, "...");
   verifier.verify(emailString, function (err, info) {
-    if (err) console.log(err);
-    else {
-      var result = "";
-      if (info.code === infoCodes.finishedVerification) {
-        if (info.success) {
-          res.json(info.success);
-        } else {
-          result = "O email é inválido";
+    if (err) {
+      console.log(err);
+      res.json(err + " ");
+    } else {
+      if (info.success) {
+        res.json("true");
+        console.log("O email é válido");
+        console.log(info.code);
+      } else {
+        var result = "";
+        if (info.code === infoCodes.domainNotFound) {
+          console.log(info.code);
+          result = result + "O domínio não foi encontrado";
         }
+
+        if (info.code === infoCodes.noMxRecords) {
+          console.log(info.code);
+          result = result + "Não há rotas para o domínio";
+        }
+
+        if (info.code === infoCodes.invalidEmailStructure) {
+          console.log(info.code);
+          result = result + "O email apresenta uma estrutura errada";
+        }
+
+        if (info.code === infoCodes.SMTPConnectionTimeout) {
+          console.log(info.code);
+          result = result + "smtp connection timeout";
+        }
+
+        if (info.code === 1) {
+          console.log(info.info);
+          result = result + "O email é inválido";
+        }
+        res.json(result);
       }
-      if (info.code === infoCodes.domainNotFound) {
-        result = result + " dominio não encontrado";
-      }
-      if (info.code === infoCodes.invalidEmailStructure) {
-        result = result + " invalid email structure";
-      }
-      if (info.code === infoCodes.noMxRecords) {
-        result = result + " não foram encontradas rotas para o dominio";
-      }
-      if (info.code === infoCodes.SMTPConnectionTimeout) {
-        result = result + " smtp connection timeout";
-      }
-      if (info.code === infoCodes.SMTPConnectionError) {
-        result = result + " erro ao conectar com smtp";
-      }
-      res.json(result);
     }
   });
 });

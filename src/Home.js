@@ -3,7 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import ReactFormInputValidation from "react-form-input-validation";
 
-const api = axios.create({ baseURL: "http://www.easyorder.co.mz:6969" });
+const api = axios.create({ baseURL: "http://localhost:3001" });
+// const api = axios.create({ baseURL: "http://www.easyorder.co.mz:6969" });
 const loading = require("./loading.gif");
 
 function Home() {
@@ -104,12 +105,19 @@ function Home() {
         </h1> */}
         <h1
           className={`items-center ${
-            result ? "text-[#158719]" : "text-[#ec1554]"
+            result === "true" ? "text-[#158719]" : "text-[#ec1554]"
           } text-xl justify-center align-center`}
         >
-          {result}
+          {result === "true" ? "O email é válido" : "O email não é válido"}
         </h1>
       </div>
+      <h1
+        className={` ${
+          result === "true" ? "hidden" : "block"
+        } flex justify-center align-center items-center`}
+      >
+        {result}
+      </h1>
     </div>
   );
 }
