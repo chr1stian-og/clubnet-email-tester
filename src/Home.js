@@ -3,7 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import ReactFormInputValidation from "react-form-input-validation";
 
-const api = axios.create({ baseURL: "https://www.easyorder.co.mz:6969" });
+// const api = axios.create({ baseURL: "https://www.easyorder.co.mz:6969" });
+const api = axios.create({ baseURL: "http://www.easyorder.co.mz:6969" });
 const loading = require("./loading.gif");
 
 function Home() {
