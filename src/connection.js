@@ -3,12 +3,20 @@ const cors = require("cors");
 const app = express();
 const truecallerjs = require("truecallerjs");
 
+const nReadlines = require("n-readlines");
+
 var verifier = require("email-verify");
+const { json } = require("express");
 var infoCodes = verifier.verifyCodes;
 
 app.use(express.json({ limit: "25mb" }));
 app.use(express.urlencoded({ limit: "25mb", extended: true }));
 app.use(cors());
+
+app.post("/testMultiple", async (req, res) => {
+  console.log(req.body);
+  res.json(req.body.data);
+});
 
 app.post("/testNumber", (req, res) => {
   var number = req.body || "";

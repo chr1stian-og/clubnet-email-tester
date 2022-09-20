@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "./Footer";
 import Navbar from "./Navbar";
 import RoutesComponent from "./RoutesComponent";
 
@@ -7,6 +8,7 @@ function Home() {
     <>
       <Navbar />
       <RoutesComponent />
+      <Footer />
     </>
   );
 }

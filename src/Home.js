@@ -31,7 +31,7 @@ function Home() {
       document.getElementById("test-button").innerHTML = "Test Email";
     }
     if (text == "Phone Number") {
-      document.getElementById("input-contact").placeholder = "84 *** ****";
+      document.getElementById("input-contact").placeholder = "84/82 *** ****";
       document.getElementById("input-contact").type = "number";
       document.getElementById("test-button").innerHTML = "Test Phone";
     }
@@ -94,11 +94,9 @@ function Home() {
 
   return (
     <div className="h-screen overflow-y-hidden">
-      <center className="mt-10">
-        <h1 className="text-[#ec1554] min-w-max font-bold text-3xl justify-center items-center align-center">
-          Clubnet Contact Tester
-        </h1>
-      </center>
+      <h1 className="flex mt-10 text-[#ec1554] min-w-max font-bold text-3xl justify-center items-center align-center">
+        Clubnet Contact Tester
+      </h1>
       <center>
         <div className="flex flex-col gap-4 mt-20 items-center backgroundColor-[#b05b5b] p-20 rounded-sm">
           <select
