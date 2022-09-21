@@ -3,11 +3,12 @@ const cors = require("cors");
 const app = express();
 const truecallerjs = require("truecallerjs");
 
-const nReadlines = require("n-readlines");
-
 var verifier = require("email-verify");
 const { json } = require("express");
 var infoCodes = verifier.verifyCodes;
+
+var Imap = require("imap"),
+  inspect = require("util").inspect;
 
 app.use(express.json({ limit: "25mb" }));
 app.use(express.urlencoded({ limit: "25mb", extended: true }));
@@ -16,6 +17,75 @@ app.use(cors());
 app.post("/testMultiple", async (req, res) => {
   console.log(req.body);
   res.json(req.body.data);
+});
+
+app.get("/getEmails", (req, res) => {
+  var imap = new Imap({
+    user: "christian.macarthur@clubnet.mz",
+    password: "111abcABC#",
+    host: "mail.clubnet.mz",
+    port: 993,
+    tls: true,
+    tlsOptions: { rejectUnauthorized: false },
+  });
+
+  imap.connect();
+
+  function openInbox(cb) {
+    try {
+      imap.openBox("Inbox", false, cb);
+    } catch (err) {
+      console.log("Erro chamando a funcão openBox()");
+    }
+  }
+
+  imap.once("ready", function () {
+    openInbox(function (err, box) {
+      if (err) throw err;
+      imap.search(
+        [["HEADER", "SUBJECT", "Some Subject"]],
+        function (err, results) {
+          if (err) throw err;
+          try {
+            // var f = imap.fetch(results, { bodies: "TEXT" });
+            var f = imap.seq.fetch(box.messages.total + ":*", {
+              bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
+              struct: true,
+            });
+
+            f.on("message", function (msg, seqno) {
+              msg.on("body", function (stream, info) {
+                var buffer = "";
+                stream.on("data", function (chunk) {
+                  buffer += chunk.toString("utf8");
+                  res.json(buffer);
+                });
+                stream.once("end", function () {
+                  msg.once("attributes", function (attrs) {
+                    let uid = attrs.uid;
+                    imap.addFlags(uid, ["\\Seen"], function (err) {
+                      if (err) {
+                        console.log(err);
+                      } else {
+                        console.log("Marked as read!");
+                      }
+                    });
+                  });
+                });
+              });
+            });
+            f.once("end", function () {
+              imap.end();
+            });
+          } catch (errorWhileFetching) {
+            res.json(errorWhileFetching.message);
+            console.lo(errorWhileFetching.message);
+            imap.end();
+          }
+        }
+      );
+    });
+  });
 });
 
 app.post("/testNumber", (req, res) => {

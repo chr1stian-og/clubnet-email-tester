@@ -51,7 +51,7 @@ function Navbar() {
         </div>
         <ul className="md:flex md:items-center p-4 sm:p-4 gap-4 sm:px-4 sm:gap-10 md:gap-4 md:z-auto md:static absolute bg-white border-2 rounded-md border-[#b05b5b] sm:border-[#f04088] md:border-transparent w-[250px] sm:inset-x-2/4 inset-x-2/4 md:w-auto md:py-0 md:pl-0 md:opacity-100 opacity-100 top-[-400px] transition-all duration-150">
           <li>
-            <Link to="/">
+            <Link to="/home">
               <h1
                 onClick={closeNavbar}
                 className="hover:text-black my-4 md:my-0  font-semibold duration-150 text-lg"
@@ -80,6 +80,17 @@ function Navbar() {
               </h1>
             </Link>
           </li>
+          <li>
+            <Link to="/checkList">
+              <h1
+                onClick={closeNavbar}
+                className="hover:text-black my-4 md:my-0  font-semibold duration-150 text-lg"
+              >
+                Check List
+              </h1>
+            </Link>
+          </li>
+
           <li>
             <Link to="/login">
               <h1

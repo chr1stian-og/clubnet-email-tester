@@ -10,16 +10,16 @@ function Login() {
       <div className="flex mt-20 flex-col gap-2 items-center">
         <input
           placeholder="Username"
-          className="rounded-lg border-[#ec1554] px-2 py-2 w-[200px] sm:w-[350px] text-md"
+          className="rounded-lg border-[#ec1554] px-2 py-2 w-[200px] sm:w-[350px] text-lg"
           min={5}
         />
         <input
           placeholder="Password"
-          className="rounded-lg border-[#ec1554] px-2 py-2 w-[200px] sm:w-[350px] text-md"
+          className="rounded-lg border-[#ec1554] px-2 py-2 w-[200px] sm:w-[350px] text-lg"
           min={5}
         />
         <Link to="/home">
-          <button className="bg-[#ec1554] px-4 py-2 text-white rounded-xl">
+          <button className="bg-[#ec1554] mt-4 px-4 py-2 w-[200px] sm:w-[350px] text-white rounded-xl">
             Entrar
           </button>
         </Link>
