@@ -6,7 +6,6 @@ import RoutesComponent from "./RoutesComponent";
 function Home() {
   return (
     <>
-      <Navbar />
       <RoutesComponent />
       <Footer />
     </>

@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function Login() {
   return (
     <div className="h-screen overflow-y-hidden">
+      <Navbar />
+
       <h1 className="flex mt-10 text-[#ec1554] min-w-max font-bold text-3xl justify-center items-center align-center">
         Email List
       </h1>

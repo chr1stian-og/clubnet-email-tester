@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import Navbar from "./Navbar";
 
 const api = axios.create({ baseURL: "http://localhost:3001" });
 // const api = axios.create({ baseURL: "http://www.easyorder.co.mz:6969" });
@@ -94,6 +95,8 @@ function Home() {
 
   return (
     <div className="h-screen overflow-y-hidden">
+      <Navbar />
+
       <h1 className="flex mt-10 text-[#ec1554] min-w-max font-bold text-3xl justify-center items-center align-center">
         Clubnet Contact Tester
       </h1>

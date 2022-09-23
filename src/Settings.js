@@ -1,8 +1,10 @@
 import React from "react";
+import Navbar from "./Navbar";
 
 function Settings() {
   return (
     <div className="h-screen">
+      <Navbar />
       <center className="mt-10">
         <h1 className="text-[#ec1554] font-bold text-3xl justify-center items-center align-center">
           Settings

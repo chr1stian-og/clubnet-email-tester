@@ -61,6 +61,7 @@ function MultipleTest() {
 
   return (
     <div className="h-screen">
+      <Navbar />
       <center className="mt-10">
         <h1 className="text-[#ec1554] min-w-max font-bold text-3xl justify-center items-center align-center">
           Clubnet Email Tester
