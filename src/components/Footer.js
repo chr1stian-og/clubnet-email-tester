@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
-const logo = require("./Logo-Branco.png");
+const logo = require("../assets/Logo-Branco.png");
 function Footer() {
   return (
     <>
-      <footer className="bg-[#cbcbcb] p-2 px-10 flex flex-col gap-2">
+      <footer className="bg-[#cbcbcb] p-2 px-10 mt-20 flex flex-col gap-2">
         <div className="flex flex-col sm:flex-row gap-2 justify-between align-center items-center">
           <img
             src={logo}

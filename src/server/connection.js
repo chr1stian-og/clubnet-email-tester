@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const truecallerjs = require("truecallerjs");
+const UserModel = require("./user");
+const mongoose = require("mongoose");
 
 var verifier = require("email-verify");
 const { json } = require("express");
@@ -13,6 +15,36 @@ var Imap = require("imap"),
 app.use(express.json({ limit: "25mb" }));
 app.use(express.urlencoded({ limit: "25mb", extended: true }));
 app.use(cors());
+
+mongoose.connect(
+  "mongodb+srv://christian2:christian2@beatstore.todsx.mongodb.net/EmailTester?retryWrites=true&w=majority",
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
+
+app.post("/createUser", (req, res) => {
+  const user = UserModel.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+  });
+  try {
+    user.save = () => {};
+    res.json("Sucess");
+  } catch (err) {
+    res.json("Error while saving ", err);
+  }
+});
+
+app.get("/getUsers", (req, res) => {
+  const user = UserModel.find({}, (err, found) => {
+    if (err) {
+      res.json("Error while retrieving User" + err);
+      console.log(err);
+    } else {
+      res.json(found);
+    }
+  });
+});
 
 app.post("/testMultiple", async (req, res) => {
   console.log(req.body);
@@ -49,16 +81,24 @@ app.get("/getEmails", (req, res) => {
           try {
             // var f = imap.fetch(results, { bodies: "TEXT" });
             var f = imap.seq.fetch(box.messages.total + ":*", {
-              bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
+              // bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
+              bodies: "TEXT",
               struct: true,
             });
-
+            // var f = imap.seq.fetch(box.messages.total + ":*", {
+            //   bodies: ["HEADER.FIELDS (FROM)", "TEXT"],
+            // });
             f.on("message", function (msg, seqno) {
               msg.on("body", function (stream, info) {
                 var buffer = "";
                 stream.on("data", function (chunk) {
-                  buffer += chunk.toString("utf8");
-                  res.json(buffer);
+                  buffer += chunk.toString();
+                  try {
+                    res.json(buffer);
+                    console.log(buffer);
+                  } catch (err) {
+                    console.log("Erro while fetching emails", err);
+                  }
                 });
                 stream.once("end", function () {
                   msg.once("attributes", function (attrs) {
@@ -67,7 +107,7 @@ app.get("/getEmails", (req, res) => {
                       if (err) {
                         console.log(err);
                       } else {
-                        console.log("Marked as read!");
+                        console.log("Marked as read!`");
                       }
                     });
                   });
@@ -88,6 +128,11 @@ app.get("/getEmails", (req, res) => {
   });
 });
 
+app.get("/testEmails", (req, res) => {
+  res.json("Tested Sucessfully");
+  console.log("Tested Sucessfully");
+});
+
 app.post("/testNumber", (req, res) => {
   var number = req.body || "";
   var numberString = JSON.stringify(number)
@@ -102,7 +147,7 @@ app.post("/testNumber", (req, res) => {
     number: numberString,
     countryCode: "MZ",
     installationId:
-      "a1i01--abM1cUktkZanw_tRjsTsbNWZ3kA1doslvKdjLp1T3huBKsaJnB6VaybEB",
+      "a1i0A--akQhWeFW-bB_TDmoup_DXVAc-ILCPVmgkPBBW0MfLgud9nCYHZ6WAGHnq",
     output: "JSON",
   };
   var sn = truecallerjs.searchNumber(searchData).then((resp) => {
@@ -132,13 +177,14 @@ app.post("/testEmail", (req, res) => {
   verifier.verify(emailString, function (err, info) {
     if (err) {
       console.log(err);
-      res.json(err + "");
+      res.json("O dominio não foi encontrado (" + err + ")");
     } else {
       if (info.success) {
-        res.json("true");
+        res.json("O email é válido");
         console.log("O email é válido");
         console.log(info.code);
       } else {
+        req.setTimeout(5000);
         var result = "";
         if (info.code === infoCodes.domainNotFound) {
           console.log(info.code);

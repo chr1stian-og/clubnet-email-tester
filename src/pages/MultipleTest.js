@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { checkSingle } from "@reacherhq/api";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 
 const api = axios.create({ baseURL: "http://localhost:3001" });
 
@@ -50,24 +50,15 @@ function MultipleTest() {
       alert("Importe uma lista de emails no formato txt para testar");
     }
   }
-
-  // e.preventDefault();
-  // const reader = new FileReader();
-  // reader.onload = async (e) => {
-  //   const text = e.target.result;
-  //   setEmailList(text);
-  // };
-  // reader.readAsText(e.target.files[0]);
-
   return (
     <div className="h-screen">
       <Navbar />
       <center className="mt-10">
         <h1 className="text-[#ec1554] min-w-max font-bold text-3xl justify-center items-center align-center">
-          Clubnet Email Tester
+          Multiple Test
         </h1>
       </center>
-      <div className="flex flex-col sm:flex-row items-center justify-center align-center gap-4 mt-20 backgroundColor-[#b05b5b] p-20 rounded-sm">
+      <div className="flex flex-col bg-[#ebebeb] rounded-lg  mx-10 sm:flex-row items-center justify-center align-center gap-4 mt-20 backgroundColor-[#b05b5b] p-20">
         <input
           type="file"
           onChange={(e) => readFile(e)}

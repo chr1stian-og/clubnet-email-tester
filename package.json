@@ -16,9 +16,11 @@
     "express": "^4.18.1",
     "imap": "^0.8.19",
     "line-reader": "^0.4.0",
+    "mongoose": "^6.6.5",
     "n-readlines": "^1.0.1",
     "nodemon": "^2.0.19",
     "react": "^18.2.0",
+    "react-confirm-alert": "^3.0.6",
     "react-dom": "^18.2.0",
     "react-email-validator": "^1.0.2",
     "react-form-input-validation": "^2.1.0",
@@ -26,12 +28,13 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "simple-sms-sender": "^0.1.1",
     "truecallerjs": "^1.1.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "concurrently \"npm run dev\" \"react-scripts start\"",
-    "dev": "nodemon ./src/connection.js",
+    "dev": "nodemon ./src/server/connection.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

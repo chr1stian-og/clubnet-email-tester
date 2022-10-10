@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "dosis";
-  src: url("./Dosis-SemiBold.ttf");
+  src: url("./assets/Dosis-SemiBold.ttf");
 }
 
 body {
@@ -31,4 +31,13 @@ footer {
 
 h1 {
   color: #636363;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }

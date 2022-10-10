@@ -1,0 +1,38 @@
+ <table class="flex justify-center align-center items-center table table-compact">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Body</th>
+                  <th>Date</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>1</th>
+                  <td>cobrancas@clubnet.mz</td>
+                  <td>christian.macarthur@clubnet.mz</td>
+                  <td>Boa tarde sr Christian ...</td>
+                  <td>9:51</td>
+                  <td className="text-green-600">funciona</td>
+                </tr>
+                <tr>
+                  <th>2</th>
+                  <td>cobrancas@clubnet.mz</td>
+                  <td>christian.macarthur@gamail.com</td>
+                  <td>Boa tarde sr Christian ...</td>
+                  <td>9:51</td>
+                  <td className="text-red-600">não funciona</td>
+                </tr>
+                <tr>
+                  <th></th>
+                  <td>cobrancas@clubnet.mz</td>
+                  <td>christian.macarthur@gamail.com</td>
+                  <td>{emails}</td>
+                  <td>9:51</td>
+                  <td className="text-red-600">não funciona</td>
+                </tr>
+              </tbody>
+            </table>

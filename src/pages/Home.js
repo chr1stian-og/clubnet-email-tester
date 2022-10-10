@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
+import Dialog from "../components/Dialog";
 
 const api = axios.create({ baseURL: "http://localhost:3001" });
-// const api = axios.create({ baseURL: "http://www.easyorder.co.mz:6969" });
-const loading = require("./loading.gif");
+const loading = require("../assets/loading.gif");
 
 function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [contactToTest, setContactToTest] = useState("");
+  const [contactType, setContactType] = useState("email");
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (document.getElementById("input-contact").value.length === 0) {
@@ -22,19 +24,26 @@ function Home() {
   function changeContact() {
     document.getElementById("input-contact").value = "";
     var e = document.getElementById("contact");
-    var value = e.value;
     var text = e.options[e.selectedIndex].text;
     document.getElementById("input-contact").type = text;
-    if (text == "Email") {
+    if (text === "Email") {
+      setContactType("email");
       document.getElementById("input-contact").placeholder =
         "example@domain.com";
       document.getElementById("input-contact").type = "email";
       document.getElementById("test-button").innerHTML = "Test Email";
+      document.getElementById("test-result").innerHTML = "";
+      document.getElementById("test").innerHTML = "";
+      setResult(null);
     }
-    if (text == "Phone Number") {
+    if (text === "Phone Number") {
+      setContactType("phone");
       document.getElementById("input-contact").placeholder = "84/82 *** ****";
       document.getElementById("input-contact").type = "number";
       document.getElementById("test-button").innerHTML = "Test Phone";
+      document.getElementById("test-result").innerHTML = "";
+      document.getElementById("test").innerHTML = "";
+      setResult(null);
     }
   }
 
@@ -52,6 +61,7 @@ function Home() {
   }
 
   function testPhone() {
+    setIsLoading(false);
     if (contactToTest) {
       try {
         if (result === null || !isLoading) {
@@ -72,7 +82,10 @@ function Home() {
     }
   }
 
+  function checker() {}
+
   function testEmail() {
+    setIsLoading(false);
     if (contactToTest) {
       try {
         if (result === null || !isLoading) {
@@ -96,19 +109,18 @@ function Home() {
   return (
     <div className="h-screen overflow-y-hidden">
       <Navbar />
-
       <h1 className="flex mt-10 text-[#ec1554] min-w-max font-bold text-3xl justify-center items-center align-center">
-        Clubnet Contact Tester
+        Single Test
       </h1>
-      <center>
+      <center className="bg-[#ebebeb] rounded-lg mx-10">
         <div className="flex flex-col gap-4 mt-20 items-center backgroundColor-[#b05b5b] p-20 rounded-sm">
           <select
             id="contact"
             type="text"
-            className="rounded-xl bg-slate-200 text-[#636363] p-2"
+            className="rounded-xl bg-[#b7b7b7] text-[#484848] text-md p-2"
             onChange={changeContact}
           >
-            <option selected>Email</option>
+            <option>Email</option>
             <option>Phone Number</option>
           </select>
           <div className="flex flex-col sm:flex-row justify-center align-center items-center gap-4 ">
@@ -118,11 +130,10 @@ function Home() {
               maxLength={50}
               onChange={(e) => {
                 setContactToTest(e.target.value);
-                console.log(contactToTest);
               }}
               min={5}
               placeholder="example@domain.com"
-              className="input input-bordered input-error w-full min-w-[250px] max-w-xs text-xl"
+              className="input input-bordered input-error w-full min-w-[350px] max-w-xs text-xl"
             />
             <button
               id="test-button"
@@ -132,11 +143,13 @@ function Home() {
               } duration-150 transition-all`}
             >
               <span className={`${!isLoading ? "block" : "hidden"}`}>
-                test email
+                Test Email
               </span>
               <img
                 src={loading}
-                className={`w-[30px] ${isLoading ? "block" : "hidden"}`}
+                className={`w-[30px] ${
+                  isLoading ? "block" : "hidden"
+                } cursor-default `}
               />
             </button>
           </div>
@@ -147,31 +160,61 @@ function Home() {
         ${result != null && !isLoading ? "flex" : "hidden"}
         gap-2 justify-center items-center align-center`}
       >
-        <h1 className="items-center text-xl justify-center align-center">
-          Test Result:
-        </h1>
-        {/* <h1
-          className={`items-center ${
-            result ? "text-[#158719]" : "text-[#ec1554]"
-          } text-xl justify-center align-center`}
-        >
-          {result ? "the Email is valid" : "the Email is invalid"}
-        </h1> */}
         <h1
-          className={`items-center ${
-            result === "true" ? "text-[#158719]" : "text-[#ec1554]"
-          } text-xl justify-center align-center`}
+          id="test"
+          className="items-center text-xl justify-center align-center"
         >
-          {result === "true" ? "O email é válido" : "O email não é válido"}
+          Test Result:
         </h1>
       </div>
       <h1
-        className={` ${
-          result === "true" ? "hidden" : "block"
-        } flex justify-center align-center items-center`}
+        id="test-result"
+        className={`
+        ${
+          contactType === "phone"
+            ? result != "Sem nome"
+              ? "text-green-600"
+              : "text-red-500"
+            : result != "O email é válido"
+            ? "text-red-500"
+            : "text-green-600"
+        }
+          flex justify-center text-2xl align-center items-center`}
       >
-        {result}
+        {result === "O email é válido" ? "O email é válido" : result}
       </h1>
+
+      <center
+        className={`mt-20 $${
+          contactType === "phone"
+            ? result != "Sem nome"
+              ? "hidden"
+              : "block"
+            : result != "O email é válido"
+            ? "block"
+            : "hidden"
+        }`}
+      >
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => setShow(true)}
+        >
+          Enviar Link
+        </button>
+        <h1
+          className="underline cursor-pointer mt-2"
+          onClick={() =>
+            alert(
+              "Será enviado um link para o endereço acima que irá rederecionar para o site myclubnet onde poderá actualizar os detalhes da conta"
+            )
+          }
+        >
+          saiba mais
+        </h1>
+      </center>
+      <Dialog isOpen={show} onClose={() => setShow(false)}>
+        Enviar Link ?
+      </Dialog>
     </div>
   );
 }
