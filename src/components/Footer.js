@@ -4,7 +4,7 @@ const logo = require("../assets/Logo-Branco.png");
 function Footer() {
   return (
     <>
-      <footer className="bg-[#cbcbcb] p-2 px-10 mt-20 flex flex-col gap-2">
+      <footer className="bg-[#cbcbcb] p-2 flex flex-col gap-2 absolute bottom-0">
         <div className="flex flex-col sm:flex-row gap-2 justify-between align-center items-center">
           <img
             src={logo}

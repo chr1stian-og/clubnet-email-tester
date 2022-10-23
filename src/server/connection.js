@@ -35,8 +35,8 @@ app.post("/createUser", (req, res) => {
   }
 });
 
-app.get("/getUsers", (req, res) => {
-  const user = UserModel.find({}, (err, found) => {
+app.get("/login", (req, res) => {
+  const user = UserModel.findOne({}, (err, found) => {
     if (err) {
       res.json("Error while retrieving User" + err);
       console.log(err);
@@ -128,11 +128,6 @@ app.get("/getEmails", (req, res) => {
   });
 });
 
-app.get("/testEmails", (req, res) => {
-  res.json("Tested Sucessfully");
-  console.log("Tested Sucessfully");
-});
-
 app.post("/testNumber", (req, res) => {
   var number = req.body || "";
   var numberString = JSON.stringify(number)
@@ -163,54 +158,59 @@ app.post("/testNumber", (req, res) => {
   });
 });
 
-app.post("/testEmail", (req, res) => {
-  var email = req.body || "";
-  var emailString = JSON.stringify(email)
-    .replace(":", "")
-    .replace("{", "")
-    .replace("}", "")
-    .replace('"', "")
-    .replace('"""', "")
-    .replace(" ", "");
-  console.log("testing", emailString, "...");
+app.post("/testEmail", async (req, res) => {
+  try {
+      var email = req.body || " ";
+    var emailString = JSON.stringify(email)
+      .replace(":", "")
+      .replace("{", "")
+      .replace("}", "")
+      .replace('"', "")
+      .replace('"""', "")
+      .replace(" ", "");
+    console.log("testing", emailString, "...");
 
-  verifier.verify(emailString, function (err, info) {
-    if (err) {
-      console.log(err);
-      res.json("O dominio não foi encontrado (" + err + ")");
-    } else {
-      if (info.success) {
-        res.json("O email é válido");
-        console.log("O email é válido");
-        console.log(info.code);
+    await verifier.verify(emailString, function (err, info) {
+      if (err) {
+        console.log(err);
+        res.json("O dominio não foi encontrado (" + err + ")");
       } else {
-        req.setTimeout(5000);
-        var result = "";
-        if (info.code === infoCodes.domainNotFound) {
+        if (info.success) {
+          res.json("O email é válido");
+          console.log("O email é válido");
           console.log(info.code);
-          result = result + "O domínio não foi encontrado";
-        }
-        if (info.code === infoCodes.noMxRecords) {
-          console.log(info.code);
-          result = result + "Não há rotas para o domínio";
-        }
-        if (info.code === infoCodes.SMTPConnectionTimeout) {
-          console.log(info.code);
-          result = result + "smtp connection timeout";
-        }
-        if (info.code === infoCodes.invalidEmailStructure) {
-          console.log(info.code);
-          result = result + "O email apresenta uma estrutura errada";
-        }
+        } else {
+          req.setTimeout(5000);
+          var result = "";
+          if (info.code === infoCodes.domainNotFound) {
+            console.log(info.code);
+            result = result + "O domínio não foi encontrado";
+          }
+          if (info.code === infoCodes.noMxRecords) {
+            console.log(info.code);
+            result = result + "Não há rotas para o domínio";
+          }
+          if (info.code === infoCodes.SMTPConnectionTimeout) {
+            console.log(info.code);
+            result = result + "smtp connection timeout";
+          }
+          if (info.code === infoCodes.invalidEmailStructure) {
+            console.log(info.code);
+            result = result + "O email apresenta uma estrutura errada";
+          }
 
-        if (info.code === 1) {
-          console.log(info.info);
-          result = result + "O email é inválido";
+          if (info.code === 1) {
+            console.log(info.info);
+            result = result + "O email é inválido";
+          }
+          res.json(result);
         }
-        res.json(result);
       }
-    }
-  });
+    });
+  } catch (err) {
+    console.log(err);
+    res.json("Erro");
+  }
 });
 
 const PORT = process.env.PORT || 3001;

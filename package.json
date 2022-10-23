@@ -14,6 +14,8 @@
     "daisyui": "^2.27.0",
     "email-verify": "^0.2.1",
     "express": "^4.18.1",
+    "file-system": "^2.2.2",
+    "fs": "^0.0.1-security",
     "imap": "^0.8.19",
     "line-reader": "^0.4.0",
     "mongoose": "^6.6.5",

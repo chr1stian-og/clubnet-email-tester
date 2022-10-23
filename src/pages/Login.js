@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const logo = require("../assets/clubnetlogo.png");
 const api = axios.create({ baseURL: "http://localhost:3001/" });
@@ -12,7 +12,7 @@ function Login() {
 
   function verifiyLogin() {
     api
-      .get("/getUser")
+      .post("/login")
       .then((res) => {
         if (res.data.email === username) {
           if (res.data.password === password) {
@@ -62,12 +62,12 @@ function Login() {
         <button className="bg-[#ec1554] mt-4 px-4 py-2 w-[200px] sm:w-[350px] text-white rounded-xl">
           LOGIN
         </button>
-        <h1
+        {/* <h1
           className="underline cursor-pointer"
           onClick={() => navigate("/signin", { replace: true })}
         >
           registrar
-        </h1>
+        </h1> */}
       </form>
     </div>
   );

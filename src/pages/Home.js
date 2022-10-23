@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Dialog from "../components/Dialog";
+import Footer from "../components/Footer";
 
 const api = axios.create({ baseURL: "http://localhost:3001" });
 const loading = require("../assets/loading.gif");
@@ -38,7 +39,7 @@ function Home() {
     }
     if (text === "Phone Number") {
       setContactType("phone");
-      document.getElementById("input-contact").placeholder = "84/82 *** ****";
+      document.getElementById("input-contact").placeholder = "8* *** ****";
       document.getElementById("input-contact").type = "number";
       document.getElementById("test-button").innerHTML = "Test Phone";
       document.getElementById("test-result").innerHTML = "";
@@ -82,8 +83,6 @@ function Home() {
     }
   }
 
-  function checker() {}
-
   function testEmail() {
     setIsLoading(false);
     if (contactToTest) {
@@ -112,12 +111,12 @@ function Home() {
       <h1 className="flex mt-10 text-[#ec1554] min-w-max font-bold text-3xl justify-center items-center align-center">
         Single Test
       </h1>
-      <center className="bg-[#ebebeb] rounded-lg mx-10">
+      <center className="rounded-lg mx-10">
         <div className="flex flex-col gap-4 mt-20 items-center backgroundColor-[#b05b5b] p-20 rounded-sm">
           <select
             id="contact"
             type="text"
-            className="rounded-xl bg-[#b7b7b7] text-[#484848] text-md p-2"
+            className="rounded-xl bg-[#dadada] text-[#484848] text-md p-2"
             onChange={changeContact}
           >
             <option>Email</option>
@@ -183,7 +182,6 @@ function Home() {
       >
         {result === "O email é válido" ? "O email é válido" : result}
       </h1>
-
       <center
         className={`mt-20 $${
           contactType === "phone"
@@ -195,7 +193,7 @@ function Home() {
             : "hidden"
         }`}
       >
-        <button
+        {/* <button
           className="btn btn-sm btn-primary"
           onClick={() => setShow(true)}
         >
@@ -210,11 +208,12 @@ function Home() {
           }
         >
           saiba mais
-        </h1>
+        </h1> */}
       </center>
       <Dialog isOpen={show} onClose={() => setShow(false)}>
         Enviar Link ?
       </Dialog>
+      {/* <Footer /> */}
     </div>
   );
 }

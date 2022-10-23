@@ -41,3 +41,11 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.App {
+  text-align: center;
+  min-width: 600px;
+  max-width: 600px;
+  min-height: 600px;
+  max-height: 600px;
+}

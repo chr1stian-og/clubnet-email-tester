@@ -96,7 +96,7 @@ function Navbar() {
                 onClick={closeNavbar}
                 className="hover:text-black my-4 md:my-0  font-semibold duration-150 text-lg"
               >
-                Sign up
+                Logout
               </h1>
             </Link>
           </li>
