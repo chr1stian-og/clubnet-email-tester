@@ -45,6 +45,16 @@ app.get("/login", (req, res) => {
     }
   });
 });
+app.get("/logs", (req, res) => {
+  const user = UserModel.findOne({}, (err, found) => {
+    if (err) {
+      res.json("Error while retrieving User" + err);
+      console.log(err);
+    } else {
+      res.json(found);
+    }
+  });
+});
 
 app.post("/testMultiple", async (req, res) => {
   console.log(req.body);
@@ -160,7 +170,7 @@ app.post("/testNumber", (req, res) => {
 
 app.post("/testEmail", async (req, res) => {
   try {
-      var email = req.body || " ";
+    var email = req.body || " ";
     var emailString = JSON.stringify(email)
       .replace(":", "")
       .replace("{", "")

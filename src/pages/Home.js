@@ -47,7 +47,7 @@ function Home() {
       setResult(null);
     }
   }
-
+ 
   function testContact(contactToTest) {
     if (document.getElementById("input-contact").type === "email") {
       testEmail(contactToTest);
@@ -105,6 +105,11 @@ function Home() {
     }
   }
 
+  const stopTest = () => {
+    alert("Stop testing the emails ? ");
+    return;
+  };
+
   return (
     <div className="h-screen overflow-y-hidden">
       <Navbar />
@@ -145,10 +150,11 @@ function Home() {
                 Test Email
               </span>
               <img
+                onClick={stopTest}
                 src={loading}
                 className={`w-[30px] ${
                   isLoading ? "block" : "hidden"
-                } cursor-default `}
+                } cursor-default hover:cursor-pointer`}
               />
             </button>
           </div>

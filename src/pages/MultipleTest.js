@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import axios from "axios";
 import { useState } from "react";
 import Navbar from "../components/Navbar";
-import { hover } from "@testing-library/user-event/dist/hover";
 
 const api = axios.create({ baseURL: "http://localhost:3001/" });
 const loading = require("../assets/loading.gif");
@@ -13,8 +12,6 @@ function MultipleTest() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setIsLoading2] = useState(false);
   const [result, setResult] = useState([]);
-
-  // useEffect(() => {});
 
   const handleChange = (e) => {
     var file = e.target.files[0];
@@ -46,10 +43,12 @@ function MultipleTest() {
           await api.post("/testEmail", emailList[i]).then((resp) => {
             setResult((result) => [...result, resp.data]);
             setIsLoading(false);
+            setIsLoading2(false);
           });
         } catch (err) {
           error = 1;
           setIsLoading(false);
+          setIsLoading2(false);
           console.log("Error while testing email" + err);
         }
       }
@@ -67,7 +66,7 @@ function MultipleTest() {
       try {
         api.post("/testEmail", email.trim()).then((resp) => {
           alert(resp.data);
-          // setResult((result) => [...result, resp.data]);
+          setIsLoading(false);
           setIsLoading2(false);
         });
       } catch (err) {
@@ -170,8 +169,8 @@ function MultipleTest() {
                     src={loading}
                     className={`w-[20px] ${
                       isLoading2 ? "" : "hidden"
-                    } cursor-default `}
-                  />
+                    }  cursor-default `}
+                  />{" "}
                 </button>
               </div>
               <hr className=" h-px bg-gray-200 border-0 dark:bg-gray-700 opacity-50"></hr>
